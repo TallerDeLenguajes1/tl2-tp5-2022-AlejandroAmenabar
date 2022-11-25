@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace tp4.Models
+namespace tp5.Models
 {
     public class Cadete : Persona
     {
