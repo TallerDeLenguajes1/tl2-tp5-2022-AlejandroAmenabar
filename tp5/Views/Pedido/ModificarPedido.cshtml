@@ -1,0 +1,42 @@
+﻿@model PedidoViewModel
+
+@{
+    ViewBag.Title = "Modificar Cadete";
+    Layout = "_Layout";
+}
+
+<body>
+<header>
+    <main>
+        <h2>@ViewBag.Title</h2>
+        <form asp-controller="Pedido" asp-action="ModificarPedido" method="post">
+
+            <input type="hidden" name="Id" value="@Model.Id"/>
+
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label" for="observacion">Nombre: </label>
+                <div class="col-sm-6">
+                    <input class="form-control" type="text" id="observacion" name="Observacion" value="@Model.Observacion">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label" for="estado">Dirección:</label>
+                <div class="col-sm-6">
+                    <input class="form-control" type="text" id="estado" name="Estado" value="@Model.Estado">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="offset-sm-3 col-sm-3 d-grid">
+                    <input class="btn btn-primary" type="submit" value="Modificar">
+                </div>
+                <div class="col-sm-3 d-grid">
+                    <input class="btn btn-primary" type="reset" value="Borar">
+                </div>
+            </div>
+
+        </form>
+    </main>
+</header>
+</body>

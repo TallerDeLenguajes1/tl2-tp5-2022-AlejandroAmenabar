@@ -1,0 +1,38 @@
+﻿@model List<PedidoViewModel>
+
+<h2>Lista de Pedidos</h2>
+
+<a class="btn btn-primary btn-sm" href='/Pedido/AltaPedido'>Crear nuevo pedido</a>
+
+<section>
+    <article>
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Observación</th>
+                <th>Estado</th>
+                <th>Cliente</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            @foreach (var pedido in Model)
+            {
+                <tr>
+                    <td>@pedido.Id</td>
+                    <td>@pedido.Observacion</td>
+                    <td>@pedido.Estado</td>
+                    <td>PLACEHOLDER</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" href="/Pedido/ModificarPedido?id=@pedido.Id">Editar</a>
+                        <a class="btn btn-danger btn-sm" href="/Pedido/BajaPedido?id=@pedido.Id">Eliminar</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        
+    </article>
+</section>

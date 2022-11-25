@@ -1,0 +1,35 @@
+﻿@model List<PedidoViewModel>
+
+<body>
+<header>
+    <main>
+        <h2>Registro de Pedidos</h2>
+        <form asp-controller="Pedido" asp-action="AltaPedido" method="post">
+
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label" for="nombre">Observación: </label>
+                <div class="col-sm-6">
+                    <input class="form-control" type="text" id="nombre" name="Observación" placeholder="Escriba una observación">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label" for="estado">Estado:</label>
+                <div class="col-sm-6">
+                    <input class="form-control" type="text" id="estado" name="Estado">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="offset-sm-3 col-sm-3 d-grid">
+                    <input class="btn btn-primary" type="submit" value="Crear">
+                </div>
+                <div class="col-sm-3 d-grid">
+                    <input class="btn btn-primary" type="reset" value="Borar">
+                </div>
+            </div>
+
+        </form>
+    </main>
+</header>
+</body>
