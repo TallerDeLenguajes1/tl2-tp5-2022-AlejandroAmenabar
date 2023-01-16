@@ -9,7 +9,7 @@ global using System.ComponentModel.DataAnnotations;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(typeof(Program)); //para que ande el automapper
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
