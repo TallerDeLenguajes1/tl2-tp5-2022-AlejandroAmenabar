@@ -24,7 +24,7 @@ namespace tp5.Controllers
         private readonly static List<Pedido> Pedidos = new List<Pedido>();
         public IActionResult Index()
         {
-            var PedidosViewModel = _mapper.Map<List<CadeteViewModel>>(Pedidos);
+            var PedidosViewModel = _mapper.Map<List<PedidoViewModel>>(Pedidos);
             id = Pedidos.Count;
             return View(PedidosViewModel);
         }

@@ -1,5 +1,6 @@
 // global using static tp5.Util.CsvHelper;
 global using tp5.ViewModels.Cadete;
+global using tp5.ViewModels.Pedido;
 // global using tp5.ViewModels.Pedido;
 global using tp5.Models;
 global using Microsoft.AspNetCore.Mvc;
@@ -8,8 +9,11 @@ global using System.ComponentModel.DataAnnotations;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAutoMapper(typeof(Program));
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 
 var app = builder.Build();
 
