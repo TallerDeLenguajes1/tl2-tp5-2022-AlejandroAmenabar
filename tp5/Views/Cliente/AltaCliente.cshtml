@@ -1,12 +1,12 @@
-@model Usuario
+﻿@model Usuario
 
 <body>
 <header>
     <main>
-        <h2>Registro de Cadetes</h2>
-        <form asp-controller="Cadete" asp-action="AltaCadete" method="post">
+        <h2>Registro de Clientes</h2>
+        <form asp-controller="Cliente" asp-action="AltaCliente" method="post">
 
-            <input asp-for="Rol" type="hidden" value="@Rol.Cadete"/>
+            <input asp-for="Rol" type="hidden" value="@Rol.Cliente"/>
 
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label" asp-for="Nombre">Nombre: </label>
@@ -42,7 +42,7 @@
                     <input class="form-control" type="password" asp-for="Clave" placeholder="Escriba una clave">
                 </div>
             </div>
-
+            
             <div class="row mb-3">
                 <div class="offset-sm-3 col-sm-3 d-grid">
                     <input class="btn btn-primary" type="submit" value="Crear">

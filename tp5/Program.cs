@@ -1,19 +1,36 @@
-// global using static tp5.Util.CsvHelper;
-global using tp5.ViewModels.Cadete;
-global using tp5.ViewModels.Pedido;
-// global using tp5.ViewModels.Pedido;
+global using static tp5.Util.SessionUtil;
+global using tp5.Repositories;
 global using tp5.Models;
-global using Microsoft.AspNetCore.Mvc;
+global using tp5.ViewModels;
+global using NLog;
 global using AutoMapper;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Session;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.Data.Sqlite;
+global using System.Diagnostics;
 global using System.ComponentModel.DataAnnotations;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAutoMapper(typeof(Program)); //para que ande el automapper
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddAutoMapper(typeof(Program)); //para que ande el automapper
+builder.Services.AddLogging();
 
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+builder.Services.AddTransient<IRepositorioUsuario, RepositorioUsuario>();
+builder.Services.AddTransient<IRepositorioPedido, RepositorioPedido>();
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(3);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -31,6 +48,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

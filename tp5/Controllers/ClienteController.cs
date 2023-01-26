@@ -1,57 +1,55 @@
 namespace tp5.Controllers;
-public class CadeteController : Controller
-{
-    private readonly ILogger<CadeteController> _logger;
-    private readonly IMapper _mapper;
 
+public class ClienteController : Controller
+{
+    private readonly ILogger<ClienteController> _logger;
+    private readonly IMapper _mapper;
     private readonly IRepositorioUsuario _repositorioUsuario;
 
-    private static int id;
-    public CadeteController(ILogger<CadeteController> logger, IRepositorioUsuario repositorioUsuario,IMapper mapper)
+    public ClienteController(ILogger<ClienteController> logger, IRepositorioUsuario repositorioUsuario, IMapper mapper)
     {
         _logger = logger;
         _repositorioUsuario = repositorioUsuario;
         _mapper = mapper;
     }
+
     public IActionResult Index()
     {
         try
         {
             if (HttpContext.Session.GetInt32(SessionRol) != (int)Rol.Administrador)
-            return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
 
-            var cadetes = _repositorioUsuario.BuscarTodosPorRol(Rol.Cadete);
-            var cadetesViewModel = _mapper.Map<List<UsuarioViewModel>>(cadetes);
-            return View(cadetesViewModel);
+            var clientes = _repositorioUsuario.BuscarTodosPorRol(Rol.Cliente);
+            var clientesViewModel = _mapper.Map<List<UsuarioViewModel>>(clientes);
+            return View(clientesViewModel);
         }
-        catch (System.Exception e)
+        catch (Exception e)
         {
-            _logger.LogError("Error al acceder al Index {Error}", e.Message);
+            _logger.LogError("Error al acceder el Index {Error}", e.Message);
             return View("Error");
         }
-        // var cadetesViewModel = _mapper.Map<List<CadeteViewModel>>(Cadetes);
-        // id = Cadetes.Count;
-        // return View(cadetesViewModel);
     }
 
     [HttpGet]
-    public IActionResult AltaCadete()
+    public IActionResult AltaCliente()
     {
         try
         {
             if (HttpContext.Session.GetInt32(SessionRol) != (int)Rol.Administrador)
                 return RedirectToAction("Index", "Home");
-            return View("AltaCadete");
+
+            return View("AltaCliente");
         }
         catch (Exception e)
         {
-            _logger.LogError("Error al acceder el Alta de Cadete {Error}", e.Message);
+            _logger.LogError("Error al acceder el Alta Cliente {Error}", e.Message);
             return View("Error");
         }
     }
 
     [HttpPost]
-    public IActionResult AltaCadete(UsuarioViewModel cadeteViewModel)
+    public IActionResult AltaCliente(UsuarioViewModel clienteViewModel)
     {
         try
         {
@@ -60,8 +58,8 @@ public class CadeteController : Controller
 
             if (ModelState.IsValid)
             {
-                var cadete = _mapper.Map<Usuario>(cadeteViewModel);
-                _repositorioUsuario.Insertar(cadete);
+                var cliente = _mapper.Map<Usuario>(clienteViewModel);
+                _repositorioUsuario.Insertar(cliente);
             }
             else
             {
@@ -73,33 +71,33 @@ public class CadeteController : Controller
         }
         catch (Exception e)
         {
-            _logger.LogError("Error al acceder el Alta de Cadete {Error}", e.Message);
+            _logger.LogError("Error al acceder el Alta Cliente {Error}", e.Message);
             return View("Error");
         }
     }
 
-     [HttpGet]
-    public IActionResult ModificarCadete(int id)
+    [HttpGet]
+    public IActionResult ModificarCliente(int id)
     {
         try
         {
             if (HttpContext.Session.GetInt32(SessionRol) != (int)Rol.Administrador)
                 return RedirectToAction("Index", "Home");
 
-            var cadete = _repositorioUsuario.BuscarPorId(id);
-            if (cadete is null) return RedirectToAction("Index");
-            var cadeteViewModel = _mapper.Map<UsuarioViewModel>(cadete);
-            return View(cadeteViewModel);
+            var cliente = _repositorioUsuario.BuscarPorId(id);
+            if (cliente is null) return RedirectToAction("Index");
+            var clienteViewModel = _mapper.Map<UsuarioViewModel>(cliente);
+            return View(clienteViewModel);
         }
         catch (Exception e)
         {
-            _logger.LogError("Error al acceder el Modificar Cadete {Error}", e.Message);
+            _logger.LogError("Error al acceder el Modificar Cliente {Error}", e.Message);
             return View("Error");
         }
     }
 
     [HttpPost]
-    public IActionResult ModificarCadete(UsuarioModificadoViewModel cadeteViewModel)
+    public IActionResult ModificarCliente(UsuarioModificadoViewModel clienteViewModel)
     {
         try
         {
@@ -108,8 +106,8 @@ public class CadeteController : Controller
 
             if (ModelState.IsValid)
             {
-                var cadete = _mapper.Map<Usuario>(cadeteViewModel);
-                _repositorioUsuario.Actualizar(cadete);
+                var cliente = _mapper.Map<Usuario>(clienteViewModel);
+                _repositorioUsuario.Actualizar(cliente);
             }
             else
             {
@@ -121,13 +119,13 @@ public class CadeteController : Controller
         }
         catch (Exception e)
         {
-            _logger.LogError("Error al acceder el Modificar Cadete {Error}", e.Message);
+            _logger.LogError("Error al acceder el Modificar Cliente {Error}", e.Message);
             return View("Error");
         }
     }
 
     [HttpGet]
-    public IActionResult BajaCadete(int id)
+    public IActionResult BajaCliente(int id)
     {
         try
         {
@@ -139,7 +137,7 @@ public class CadeteController : Controller
         }
         catch (Exception e)
         {
-            _logger.LogError("Error al acceder el Baja Cadete {Error}", e.Message);
+            _logger.LogError("Error al acceder el Baja Cliente {Error}", e.Message);
             return View("Error");
         }
     }
@@ -152,6 +150,4 @@ public class CadeteController : Controller
 
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
-
-
 }

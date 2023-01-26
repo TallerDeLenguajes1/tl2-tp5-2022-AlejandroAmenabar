@@ -1,0 +1,49 @@
+﻿@model UsuarioViewModel
+
+@{
+    ViewBag.Title = "Modificar Cliente";
+    Layout = "_Layout";
+}
+
+<body>
+<header>
+    <main>
+        <h2>@ViewBag.Title</h2>
+        <form asp-controller="Cliente" asp-action="ModificarCliente" method="post">
+
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label" asp-for="Nombre">Nombre: </label>
+                <div class="col-sm-6">
+                    <input class="form-control" type="text" asp-for="Nombre" value="@Model.Nombre">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label" asp-for="Direccion">Dirección:</label>
+                <div class="col-sm-6">
+                    <input class="form-control" type="text" asp-for="Direccion" value="@Model.Direccion">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label" asp-for="Telefono">Teléfono</label>
+                <div class="col-sm-6">
+                    <input class="form-control" type="tel" asp-for="Telefono" value="@Model.Telefono">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="offset-sm-3 col-sm-3 d-grid">
+                    <input class="btn btn-primary" type="submit" value="Modificar">
+                </div>
+                <div class="col-sm-3 d-grid">
+                    <input class="btn btn-primary" type="reset" value="Borar">
+                </div>
+            </div>
+
+        </form>
+    </main>
+</header>
+</body>

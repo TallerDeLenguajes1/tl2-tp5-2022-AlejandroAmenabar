@@ -1,4 +1,5 @@
-﻿@model List<PedidoViewModel>
+﻿@inject IHttpContextAccessor HttpContextAccess
+@model PedidoAltaViewModel
 
 <body>
 <header>
@@ -7,18 +8,52 @@
         <form asp-controller="Pedido" asp-action="AltaPedido" method="post">
 
             <div class="row mb-3">
-                <label class="col-sm-3 col-form-label" for="nombre">Observación: </label>
+                <label class="col-sm-3 col-form-label" for="Observacion">Observación: </label>
                 <div class="col-sm-6">
-                    <input class="form-control" type="text" id="nombre" name="Observación" placeholder="Escriba una observación">
+                    <input class="form-control" type="text" id="Observacion" name="Observacion" placeholder="Escriba una observación">
                 </div>
             </div>
 
             <div class="row mb-3">
-                <label class="col-sm-3 col-form-label" for="estado">Estado:</label>
+                <label class="col-sm-3 col-form-label" for="Estado">Estado:</label>
                 <div class="col-sm-6">
-                    <input class="form-control" type="text" id="estado" name="Estado">
+                    <input class="form-control" type="text" id="Estado" name="Estado">
                 </div>
             </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label" asp-for="@Model.Clientes">Cliente:</label>
+                <div class="col-sm-6">
+                    <select class="form-select form-select-sm" name="Cliente" id="cliente">
+                        @foreach (var cliente in Model.Clientes)
+                        {
+                            <option value="@cliente.Id">@cliente.Nombre</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            @{
+                var rolUsuario = HttpContextAccess.HttpContext?.Session.GetInt32(SessionRol);
+                if (rolUsuario == (int)Rol.Administrador)
+                {
+                    <div class="row mb-3">
+                        <label class="col-sm-3 col-form-label" asp-for="@Model.Cadetes">Cadete:</label>
+                        <div class="col-sm-6">
+                            <select class="form-select form-select-sm" name="Cadete" id="cadete">
+                                @foreach (var cadete in Model.Cadetes)
+                                {
+                                    <option value="@cadete.Id">@cadete.Nombre</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <input asp-for="Cadete" type="hidden" value="@HttpContextAccess.HttpContext?.Session.GetInt32(SessionId)"/>
+                }
+            }
 
             <div class="row mb-3">
                 <div class="offset-sm-3 col-sm-3 d-grid">

@@ -8,18 +8,20 @@ public class Pedido{
 
     public string Estado { get; set; }
     
-    public Cliente Cliente { get; set; }
-
-    public Pedido(int id, string observacion, string estado)
+    public int? Cliente { get; set; }
+    public int? Cadete { get; set; }
+    public Pedido(){}
+    public Pedido(int id, string observacion, string estado,int? cliente, int? cadete)
     {
         Id = id;
         Observacion = observacion;
         Estado = estado;
-        Cliente = new Cliente("", "",1);
+        Cliente = cliente;
+        Cadete = cadete;
     }
 
     public override string? ToString()
     {
-        return "Número: " + Id + " Cliente: " + Cliente.Nombre + " Estado: " + (Estado);
+        return "Código Pedido: " + Id + " Código Cliente: " + Cliente + " Código Cadete: " + Cadete + " Estado: " + Estado;
     }
 }

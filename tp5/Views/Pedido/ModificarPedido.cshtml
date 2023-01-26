@@ -1,7 +1,8 @@
-﻿@model PedidoViewModel
+﻿@inject IHttpContextAccessor HttpContextAccess
+@model PedidoModificadoViewModel
 
 @{
-    ViewBag.Title = "Modificar Cadete";
+    ViewBag.Title = "Modificar Pedido";
     Layout = "_Layout";
 }
 
@@ -11,28 +12,77 @@
         <h2>@ViewBag.Title</h2>
         <form asp-controller="Pedido" asp-action="ModificarPedido" method="post">
 
-            <input type="hidden" name="Id" value="@Model.Id"/>
+            <input asp-for="Id" type="hidden"/>
 
             <div class="row mb-3">
-                <label class="col-sm-3 col-form-label" for="observacion">Nombre: </label>
+                <label class="col-sm-3 col-form-label" asp-for="Observacion">Observación: </label>
                 <div class="col-sm-6">
-                    <input class="form-control" type="text" id="observacion" name="Observacion" value="@Model.Observacion">
+                    <input class="form-control" type="text" asp-for="Observacion" value="@Model.Observacion">
                 </div>
             </div>
 
             <div class="row mb-3">
-                <label class="col-sm-3 col-form-label" for="estado">Dirección:</label>
+                <label class="col-sm-3 col-form-label" asp-for="Estado">Estado:</label>
                 <div class="col-sm-6">
-                    <input class="form-control" type="text" id="estado" name="Estado" value="@Model.Estado">
+                    <input class="form-control" type="text" asp-for="Estado" value="@Model.Estado">
                 </div>
             </div>
+
+            @{
+                var rolUsuario = HttpContextAccess.HttpContext?.Session.GetInt32(SessionRol);
+                if (rolUsuario == (int)Rol.Administrador)
+                {
+                    <div class="row mb-3">
+                        <label class="col-sm-3 col-form-label" asp-for="Cadete">Cadete:</label>
+                        <div class="col-sm-6">
+                            <select class="form-select form-select-sm" asp-for="Cadete">
+                                @foreach (var cadete in Model.Cadetes)
+                                {
+                                    @if (cadete.Id == Model.Cadete)
+                                    {
+                                        <option value="@cadete.Id" selected>@cadete.Nombre</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@cadete.Id">@cadete.Nombre</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-3 col-form-label" asp-for="Cliente">Cliente:</label>
+                        <div class="col-sm-6">
+                            <select class="form-select form-select-sm" asp-for="Cliente">
+                                @foreach (var cliente in Model.Clientes)
+                                {
+                                    @if (cliente.Id == Model.Cliente)
+                                    {
+                                        <option value="@cliente.Id" selected>@cliente.Nombre</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@cliente.Id">@cliente.Nombre</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <input asp-for="Cadete" type="hidden"/>
+                    <input asp-for="Cliente" type="hidden"/>
+                }
+            }
 
             <div class="row mb-3">
                 <div class="offset-sm-3 col-sm-3 d-grid">
                     <input class="btn btn-primary" type="submit" value="Modificar">
                 </div>
                 <div class="col-sm-3 d-grid">
-                    <input class="btn btn-primary" type="reset" value="Borar">
+                    <input class="btn btn-secondary" type="reset" value="Borar">
                 </div>
             </div>
 
