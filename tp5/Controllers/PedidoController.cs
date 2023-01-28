@@ -110,7 +110,9 @@ public class PedidoController : Controller
         {
             var sesionRol = HttpContext.Session.GetInt32(SessionRol);
             if (sesionRol != (int)Rol.Administrador && sesionRol != (int)Rol.Cadete)
+            {
                 return RedirectToAction("Index", "Home");
+            }
 
             if (ModelState.IsValid)
             {
@@ -137,9 +139,10 @@ public class PedidoController : Controller
     {
         try
         {
-            var sesionRol = HttpContext.Session.GetInt32(SessionRol);
-            if (sesionRol != (int)Rol.Administrador && sesionRol != (int)Rol.Cadete)
+            if(!HttpContext.Session.IsAvailable)
+            {
                 return RedirectToAction("Index", "Home");
+            }
 
             var pedido = _repositorioPedido.BuscarPorId(id);
 
@@ -167,9 +170,10 @@ public class PedidoController : Controller
     {
         try
         {
-            var sesionRol = HttpContext.Session.GetInt32(SessionRol);
-            if (sesionRol != (int)Rol.Administrador && sesionRol != (int)Rol.Cadete)
+            if(!HttpContext.Session.IsAvailable)
+            {
                 return RedirectToAction("Index", "Home");
+            }
 
             if (ModelState.IsValid)
             {
@@ -198,7 +202,9 @@ public class PedidoController : Controller
         {
             var sesionRol = HttpContext.Session.GetInt32(SessionRol);
             if (sesionRol != (int)Rol.Administrador && sesionRol != (int)Rol.Cadete)
+            {
                 return RedirectToAction("Index", "Home");
+            }
 
             _repositorioPedido.Eliminar(id);
             return RedirectToAction("Index");
@@ -215,7 +221,9 @@ public class PedidoController : Controller
     {
         var sesionRol = HttpContext.Session.GetInt32(SessionRol);
         if (sesionRol != (int)Rol.Administrador && sesionRol != (int)Rol.Cadete)
+        {
             return RedirectToAction("Index", "Home");
+        }
 
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }

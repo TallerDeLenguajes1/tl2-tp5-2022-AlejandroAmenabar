@@ -1,6 +1,6 @@
 ﻿namespace tp5.ViewModels;
 
-public class InicioViewModel
+public class HomeViewModel
 {
 
     public LoginViewModel LoginViewModel { get; set; }

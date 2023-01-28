@@ -18,7 +18,9 @@ public class ClienteController : Controller
         try
         {
             if (HttpContext.Session.GetInt32(SessionRol) != (int)Rol.Administrador)
+            {
                 return RedirectToAction("Index", "Home");
+            }
 
             var clientes = _repositorioUsuario.BuscarTodosPorRol(Rol.Cliente);
             var clientesViewModel = _mapper.Map<List<UsuarioViewModel>>(clientes);
@@ -37,7 +39,9 @@ public class ClienteController : Controller
         try
         {
             if (HttpContext.Session.GetInt32(SessionRol) != (int)Rol.Administrador)
+            {
                 return RedirectToAction("Index", "Home");
+            }
 
             return View("AltaCliente");
         }
@@ -54,7 +58,9 @@ public class ClienteController : Controller
         try
         {
             if (HttpContext.Session.GetInt32(SessionRol) != (int)Rol.Administrador)
+            {
                 return RedirectToAction("Index", "Home");
+            }
 
             if (ModelState.IsValid)
             {
@@ -102,7 +108,9 @@ public class ClienteController : Controller
         try
         {
             if (HttpContext.Session.GetInt32(SessionRol) != (int)Rol.Administrador)
+            {
                 return RedirectToAction("Index", "Home");
+            }
 
             if (ModelState.IsValid)
             {
@@ -130,7 +138,9 @@ public class ClienteController : Controller
         try
         {
             if (HttpContext.Session.GetInt32(SessionRol) != (int)Rol.Administrador)
+            {
                 return RedirectToAction("Index", "Home");
+            }
 
             _repositorioUsuario.Eliminar(id);
             return RedirectToAction("Index");
@@ -146,7 +156,9 @@ public class ClienteController : Controller
     public IActionResult Error()
     {
         if (HttpContext.Session.GetInt32(SessionRol) != (int)Rol.Administrador)
+        {
             return RedirectToAction("Index", "Home");
+        }
 
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }

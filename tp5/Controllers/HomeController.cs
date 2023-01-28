@@ -17,12 +17,13 @@ public class HomeController : Controller
         _repositorioUsuario = repositorioUsuario;
     }
 
+    // Es una acción HTTP GET que muestra una vista con la información de todos los usuarios. Utiliza el repositorio de usuarios para buscar todos los usuarios y luego los mapea a una lista de UsuarioViewModel para mostrarlos en la vista.
     [HttpGet]
     public IActionResult Index()
     {
         try
         {
-            var inicioViewModel = new InicioViewModel();
+            var inicioViewModel = new HomeViewModel();
             var usuarios = _repositorioUsuario.BuscarTodos();
             var usuariosViewModel = _mapper.Map <List<UsuarioViewModel>>(usuarios);
             inicioViewModel.UsuarioViewModels = usuariosViewModel;
@@ -35,12 +36,14 @@ public class HomeController : Controller
         }
     }
 
+    //  Es una acción HTTP POST que se encarga de verificar las credenciales de inicio de sesión de un usuario. Utiliza el repositorio de usuarios para verificar las credenciales y si son válidas, establece las variables de sesión correspondientes.
+
     [HttpPost]
-    public IActionResult InicioSesion(InicioViewModel inicioViewModel)
+    public IActionResult InicioSesion(HomeViewModel homeViewModel)
     {
         try
         {
-            var usuario = _mapper.Map<Usuario>(inicioViewModel.LoginViewModel);
+            var usuario = _mapper.Map<Usuario>(homeViewModel.LoginViewModel);
             usuario = _repositorioUsuario.Verificar(usuario);
 
             if (usuario is null || usuario.Rol == Rol.Ninguno) return RedirectToAction("Index");
@@ -59,6 +62,7 @@ public class HomeController : Controller
         }
     }
 
+    // Es una acción HTTP GET que se encarga de cerrar la sesión actual del usuario y redirigirlo al índice.
     [HttpGet]
     public IActionResult CerrarSesion()
     {
@@ -74,11 +78,13 @@ public class HomeController : Controller
         }
     }
     
+    // Es una acción que muestra una vista con la política de privacidad del sitio.
     public IActionResult Privacy()
     {
         return View();
     }
 
+    // : Es una acción que muestra una vista de error en caso de algún problema en las acciones anteriores.
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

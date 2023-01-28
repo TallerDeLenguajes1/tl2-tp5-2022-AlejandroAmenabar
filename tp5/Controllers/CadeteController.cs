@@ -18,20 +18,19 @@ public class CadeteController : Controller
         try
         {
             if (HttpContext.Session.GetInt32(SessionRol) != (int)Rol.Administrador)
-            return RedirectToAction("Index", "Home");
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             var cadetes = _repositorioUsuario.BuscarTodosPorRol(Rol.Cadete);
             var cadetesViewModel = _mapper.Map<List<UsuarioViewModel>>(cadetes);
             return View(cadetesViewModel);
         }
-        catch (System.Exception e)
+        catch (Exception e)
         {
             _logger.LogError("Error al acceder al Index {Error}", e.Message);
             return View("Error");
         }
-        // var cadetesViewModel = _mapper.Map<List<CadeteViewModel>>(Cadetes);
-        // id = Cadetes.Count;
-        // return View(cadetesViewModel);
     }
 
     [HttpGet]
@@ -40,7 +39,10 @@ public class CadeteController : Controller
         try
         {
             if (HttpContext.Session.GetInt32(SessionRol) != (int)Rol.Administrador)
+            {
                 return RedirectToAction("Index", "Home");
+            }
+
             return View("AltaCadete");
         }
         catch (Exception e)
@@ -56,7 +58,9 @@ public class CadeteController : Controller
         try
         {
             if (HttpContext.Session.GetInt32(SessionRol) != (int)Rol.Administrador)
+            {
                 return RedirectToAction("Index", "Home");
+            }
 
             if (ModelState.IsValid)
             {
@@ -81,10 +85,12 @@ public class CadeteController : Controller
      [HttpGet]
     public IActionResult ModificarCadete(int id)
     {
-        try
+         try
         {
             if (HttpContext.Session.GetInt32(SessionRol) != (int)Rol.Administrador)
+            {
                 return RedirectToAction("Index", "Home");
+            }
 
             var cadete = _repositorioUsuario.BuscarPorId(id);
             if (cadete is null) return RedirectToAction("Index");
@@ -104,7 +110,9 @@ public class CadeteController : Controller
         try
         {
             if (HttpContext.Session.GetInt32(SessionRol) != (int)Rol.Administrador)
+            {
                 return RedirectToAction("Index", "Home");
+            }
 
             if (ModelState.IsValid)
             {
@@ -132,7 +140,9 @@ public class CadeteController : Controller
         try
         {
             if (HttpContext.Session.GetInt32(SessionRol) != (int)Rol.Administrador)
+            {
                 return RedirectToAction("Index", "Home");
+            }
 
             _repositorioUsuario.Eliminar(id);
             return RedirectToAction("Index");
@@ -148,7 +158,9 @@ public class CadeteController : Controller
     public IActionResult Error()
     {
         if (HttpContext.Session.GetInt32(SessionRol) != (int)Rol.Administrador)
+        {
             return RedirectToAction("Index", "Home");
+        }
 
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
