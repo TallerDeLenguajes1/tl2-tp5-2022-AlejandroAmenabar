@@ -10,13 +10,10 @@
     <PackageReference Include="NLog" Version="5.1.1"/>
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0"/>
-    <Content Include="Db/CadeteriaDB.db">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10"/>
+    <Content Include="DB/PedidosDB.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
-  <ItemGroup>
-      <_ContentIncludedByDefault Remove="Views\Cadeteria\Index.cshtml" />
-  </ItemGroup>
 </Project>

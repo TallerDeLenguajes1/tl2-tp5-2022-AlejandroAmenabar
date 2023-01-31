@@ -2,10 +2,6 @@
 
 public class HomeController : Controller
 {
-    private const string SessionId = "Id";
-    private const string SessionNombre = "Nombre";
-    private const string SessionUsuario = "Usuario";
-    private const string SessionRol = "Rol";
     private readonly ILogger<HomeController> _logger;
     private readonly IMapper _mapper;
     private readonly IRepositorioUsuario _repositorioUsuario;

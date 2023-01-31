@@ -1,5 +1,22 @@
 ﻿namespace tp5.Repositories;
 
+public interface IRepositorioUsuario
+{
+    Usuario? BuscarPorId(int id);
+
+    IEnumerable<Usuario> BuscarTodos();
+
+    void Insertar(Usuario entidad);
+
+    void Actualizar(Usuario entidad);
+
+    void Eliminar(int id);
+
+    Usuario? Verificar(Usuario usuario);
+
+    IEnumerable<Usuario> BuscarTodosPorRol(Rol rol);
+}
+
 public class RepositorioUsuario : IRepositorioUsuario
 {
     protected static readonly Logger Logger = LogManager.GetCurrentClassLogger();
