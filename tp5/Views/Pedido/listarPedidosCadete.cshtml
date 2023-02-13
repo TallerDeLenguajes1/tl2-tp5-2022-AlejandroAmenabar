@@ -1,0 +1,53 @@
+@model tp5.ViewModels.PedidosCadeteViewModel
+
+@{
+    ViewBag.Title = "Listado de pedidos";
+}
+
+<section>
+    <h1 class="text-center">Listado de pedidos del cadete</h1>
+    <article class="text-center">
+        <p>Pedidos encontrados correspondientes al cadete @Model.nombreCadete:</p>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            Cliente
+                        </th>
+                        <th>
+                            Observaciones
+                        </th>
+                        <th>
+                            Estado
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var pedido in Model.pedidosCadete)
+                    {
+                        <tr>
+                            <td>
+                                @pedido.Id
+                            </td>
+                            <td>
+                                @pedido.Cliente
+                            </td>
+                            @if(pedido.Observacion!=null){
+                                <td>@pedido.Observacion</td>
+                            } else {
+                                <td>-</td>
+                            }
+                            <td>
+                                @pedido.Estado
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+    </article>
+</section>
+
+

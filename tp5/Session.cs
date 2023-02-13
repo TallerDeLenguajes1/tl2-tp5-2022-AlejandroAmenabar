@@ -1,6 +1,6 @@
-﻿namespace tp5.Util;
+﻿namespace tp5.Sesiones;
 
-public static class SessionUtil
+public static class Session
 {
     public const string SessionId = "Id";
     public const string SessionNombre = "Nombre";

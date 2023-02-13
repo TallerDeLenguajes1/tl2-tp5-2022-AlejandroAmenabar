@@ -27,6 +27,7 @@
                     <td>@cadete.Direccion</td>
                     <td>@cadete.Telefono</td>
                     <td>
+                        <a class="btn btn-primary btn-sm" asp-controller="Pedido" asp-action="listarPedidosCadete" asp-route-idCadete="@cadete.Id" asp-route-nombreCadete="@cadete.Nombre">Listar</a>
                         <a class="btn btn-primary btn-sm" asp-controller="Cadete" asp-action="ModificarCadete" asp-route-id="@cadete.Id">Editar</a>
                         <a class="btn btn-danger btn-sm" asp-controller="Cadete" asp-action="BajaCadete" asp-route-id="@cadete.Id">Eliminar</a>
                     </td>

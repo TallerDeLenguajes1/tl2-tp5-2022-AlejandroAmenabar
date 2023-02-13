@@ -19,6 +19,8 @@ public class HomeController : Controller
     {
         try
         {
+            
+            if(HttpContext.Session.GetString(SessionNombre)!=null) RedirectToAction("Index","Pedido");
             var inicioViewModel = new HomeViewModel();
             var usuarios = _repositorioUsuario.BuscarTodos();
             var usuariosViewModel = _mapper.Map <List<UsuarioViewModel>>(usuarios);

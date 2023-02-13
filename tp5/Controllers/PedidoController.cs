@@ -86,7 +86,7 @@ public class PedidoController : Controller
         try
         {
             var sesionRol = HttpContext.Session.GetInt32(SessionRol);
-            if (sesionRol != (int)Rol.Administrador && sesionRol != (int)Rol.Cadete)
+            if (sesionRol != (int)Rol.Administrador)
                 return RedirectToAction("Index", "Home");
 
             var cadetes = _repositorioUsuario.BuscarTodosPorRol(Rol.Cadete);
@@ -109,7 +109,7 @@ public class PedidoController : Controller
         try
         {
             var sesionRol = HttpContext.Session.GetInt32(SessionRol);
-            if (sesionRol != (int)Rol.Administrador && sesionRol != (int)Rol.Cadete)
+            if (sesionRol != (int)Rol.Administrador)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -201,7 +201,7 @@ public class PedidoController : Controller
         try
         {
             var sesionRol = HttpContext.Session.GetInt32(SessionRol);
-            if (sesionRol != (int)Rol.Administrador && sesionRol != (int)Rol.Cadete)
+            if (sesionRol != (int)Rol.Administrador)
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -216,15 +216,56 @@ public class PedidoController : Controller
         }
     }
 
+    [HttpGet]
+    public IActionResult listarPedidosCadete(int idCadete, string nombreCadete){
+        try
+        {
+            string rolUsuario = HttpContext.Session.GetString(SessionRol);
+            if(rolUsuario == null) return RedirectToAction("Index","Home");
+
+            var pedidos = _repositorioPedido.BuscarPedidosPorCadete(idCadete);
+            var pedidosViewModel = _mapper.Map<List<PedidoViewModel>>(pedidos);
+
+            PedidosCadeteViewModel listarPedidosCadeteViewModel = new PedidosCadeteViewModel(nombreCadete,pedidosViewModel);
+
+            return View(listarPedidosCadeteViewModel);
+        }
+        catch (System.Exception ex)
+        {
+            ViewBag.Error = ex.Message; 
+            return View(new PedidosCadeteViewModel());
+        }
+    }
+
+    [HttpGet]
+    public IActionResult listarPedidosCliente(int idCliente, string nombreCliente){
+        try
+        {
+            string rolUsuario = HttpContext.Session.GetString(SessionRol);
+            if(rolUsuario == null) return RedirectToAction("Index","Home");
+
+            var pedidos = _repositorioPedido.BuscarPedidosPorCliente(idCliente);
+            var pedidosViewModel = _mapper.Map<List<PedidoViewModel>>(pedidos);
+
+            PedidosClienteViewModel listarPedidosClienteViewModel = new PedidosClienteViewModel(nombreCliente,pedidosViewModel);
+
+            return View(listarPedidosClienteViewModel);
+        }
+        catch (System.Exception ex)
+        {
+            ViewBag.Error = ex.Message; 
+            return View(new PedidosCadeteViewModel());
+        }
+    }
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
         var sesionRol = HttpContext.Session.GetInt32(SessionRol);
-        if (sesionRol != (int)Rol.Administrador && sesionRol != (int)Rol.Cadete)
+        if (sesionRol != (int)Rol.Administrador)
         {
             return RedirectToAction("Index", "Home");
+        }else{
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

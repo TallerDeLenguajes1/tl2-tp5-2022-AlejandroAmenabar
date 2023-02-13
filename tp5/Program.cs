@@ -1,4 +1,4 @@
-global using static tp5.Util.SessionUtil;
+global using static tp5.Sesiones.Session;
 global using tp5.Repositories;
 global using tp5.Models;
 global using tp5.ViewModels;

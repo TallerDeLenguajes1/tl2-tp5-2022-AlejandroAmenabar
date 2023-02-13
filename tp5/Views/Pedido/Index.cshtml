@@ -6,7 +6,7 @@
 @{
     var rolUsuario = HttpContextAccess.HttpContext?.Session.GetInt32(SessionRol);
 
-    if (rolUsuario != (int)Rol.Cliente)
+    if (rolUsuario == (int)Rol.Administrador)
     {
         <a class="btn btn-primary btn-sm" asp-controller="Pedido" asp-action="AltaPedido">Crear nuevo pedido</a>
     }

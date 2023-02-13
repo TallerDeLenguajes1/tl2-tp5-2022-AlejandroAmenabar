@@ -14,7 +14,8 @@ public interface IRepositorioPedido
 
     IEnumerable<Pedido> BuscarTodosPorUsuarioYRol(int idUsuario, Rol rol);
 
-    IEnumerable<Pedido> BuscarTodosPorId(int id);
+    IEnumerable<Pedido> BuscarPedidosPorCadete(int id);
+    IEnumerable<Pedido> BuscarPedidosPorCliente(int id);
 
 }
 
@@ -214,7 +215,7 @@ public class RepositorioPedido : IRepositorioPedido
     }
 
     //Este metodo realiza una consulta a la tabla "Pedido" para buscar todos los pedidos asociados al identificador especificado.
-    public IEnumerable<Pedido> BuscarTodosPorId(int id)
+    public IEnumerable<Pedido> BuscarPedidosPorCadete(int id)
     {
         const string consulta = "select * from Pedido where id_cadete = @id";
 
@@ -263,6 +264,53 @@ public class RepositorioPedido : IRepositorioPedido
         return new List<Pedido>();
     }
 
+    public IEnumerable<Pedido> BuscarPedidosPorCliente(int id)
+    {
+        const string consulta = "select * from Pedido where id_cliente = @id";
+
+        try
+        {
+            using var conexion = new SqliteConnection(CadenaConexion);
+            //Crea un nuevo comando Sqlite con la consulta y la conexion
+            var peticion = new SqliteCommand(consulta, conexion);
+            //Agrega el parametro "@id" con el valor del id especificado al comando
+            peticion.Parameters.AddWithValue("@id", id);
+            //Abre la conexion con la base de datos
+            conexion.Open();
+            //Crea una nueva lista para almacenar los resultados de la consulta
+            var salida = new List<Pedido>();
+            //Ejecuta la consulta y almacena el resultado en un SqliteDataReader
+            using var reader = peticion.ExecuteReader();
+            //Recorre los resultados del reader
+            while (reader.Read())
+            {
+                //Crea un nuevo objeto Pedido y lo llena con los valores de las columnas de la fila actual
+                var pedido = new Pedido
+                {
+                    Id = reader.GetInt32(0),
+                    Observacion = reader.GetString(1),
+                    Estado = reader.GetString(2),
+                    Cadete = reader.IsDBNull(3) ? null : reader.GetInt32(3),
+                    Cliente = reader.IsDBNull(4) ? null : reader.GetInt32(4)
+                };
+                //Agrega el objeto Pedido a la lista de resultados
+                salida.Add(pedido);
+            }
+
+            //Cierra la conexion con la base de datos
+            conexion.Close();
+            //Retorna la lista de resultados
+            return salida;
+        }
+        catch (Exception e)
+        {
+            //Registra un mensaje de error en el log en caso de haber alguna excepcion
+            Logger.Debug("Error al buscar todos los pedidos del cliente {Id}- {Error}", id, e.Message);
+        }
+
+        //Retorna una lista vacia en caso de haber una excepcion
+        return new List<Pedido>();
+    }    
     // Método para buscar todos los pedidos por usuario y rol.
     public IEnumerable<Pedido> BuscarTodosPorUsuarioYRol(int idUsuario, Rol rol)
     {
