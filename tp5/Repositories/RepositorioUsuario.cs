@@ -251,8 +251,4 @@ public class RepositorioUsuario : IRepositorioUsuario
         }
     }
 
-    public IEnumerable<Usuario> BuscarTodosPorId(int id)
-    {
-        throw new NotImplementedException();
-    }
 }
