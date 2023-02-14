@@ -19,11 +19,11 @@ public class PedidoController : Controller
     {
         try
         {
-            var sesionRol = (Rol)HttpContext.Session.GetInt32(SessionRol);
-
-            switch (sesionRol)
+            // var sesionRol = (Rol)HttpContext.Session.GetInt32(SessionRol); //antes de la presentacion
+            int? RolActual = HttpContext.Session.GetInt32(SessionRol); //correccion post-presentacion en vez de castear, ahora si redirige al index
+            switch (RolActual)
             {
-                case Rol.Administrador:
+                case 2:
                 {
                     var pedidos = _repositorioPedido.BuscarTodos();
                     var pedidosViewModel = _mapper.Map<List<PedidoViewModel>>(pedidos);
@@ -39,10 +39,10 @@ public class PedidoController : Controller
 
                     return View(pedidosViewModel);
                 }
-                case Rol.Cadete:
+                case 0:
                 {
                     var idCadete = (int)HttpContext.Session.GetInt32(SessionId);
-                    var pedidos = _repositorioPedido.BuscarTodosPorUsuarioYRol(idCadete, Rol.Cadete);
+                    var pedidos = _repositorioPedido.BuscarTodosPorUsuarioYRol(idCadete, Rol.Cadete); 
                     var pedidosViewModel = _mapper.Map<List<PedidoViewModel>>(pedidos);
 
                     foreach (var pedido in pedidosViewModel)
@@ -53,10 +53,10 @@ public class PedidoController : Controller
 
                     return View(pedidosViewModel);
                 }
-                case Rol.Cliente:
+                case 1:
                 {
                     var idCliente = (int)HttpContext.Session.GetInt32(SessionId);
-                    var pedidos = _repositorioPedido.BuscarTodosPorUsuarioYRol(idCliente, Rol.Cliente);
+                    var pedidos = _repositorioPedido.BuscarTodosPorUsuarioYRol(idCliente, Rol.Cliente); 
                     var pedidosViewModel = _mapper.Map<List<PedidoViewModel>>(pedidos);
 
                     foreach (var pedido in pedidosViewModel)
@@ -67,7 +67,7 @@ public class PedidoController : Controller
 
                     return View(pedidosViewModel);
                 }
-                case Rol.Ninguno:
+                default:
                     return RedirectToAction("Index", "Home");
             }
 
